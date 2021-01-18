@@ -22,6 +22,13 @@ export const ArticleType = {
   description: "",
 };
 
+export const UserInfo = {
+  id: "",
+  name: "",
+  sex: "",
+  avatar: "",
+};
+
 export class ResponseResultClass {
   result: { statusCode: number; data: {}; message: string };
   constructor() {
