@@ -1,0 +1,6 @@
+{
+  "name": "adminManager",
+  "dependencies": {
+    "@": "src"
+  }
+}

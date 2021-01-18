@@ -1,0 +1,37 @@
+{
+  "name": "admin-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --config nodemon.json src/index.ts",
+    "dev:debug": "nodemon --config nodemon.json --inspect-brk bin/www.ts",
+    "start": "tsc && node dist/www/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "_moduleAliases": {
+    "@": "src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dayjs": "^1.10.3",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0",
+    "module-alias": "^2.2.2",
+    "mysql": "^2.18.1",
+    "node-uuid": "^1.4.8",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.11.6",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-router": "^7.4.1",
+    "@types/node": "^14.14.21",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}
