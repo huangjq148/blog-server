@@ -7,15 +7,6 @@ const session = require("koa-session");
 const bodyParser = require("koa-bodyparser");
 const koaCors = require('koa-cors')
 
-const moduleAlias = require("module-alias");
-moduleAlias();
-
-// 导入controller middleware:
-const controller = require("../src/controller");
-app.use(bodyParser());
-// 使用middleware:
-app.use(controller());
-
 app.keys = ["some secret hurr"];
 const CONFIG = {
   key: "koa:sess", //cookie key (default is koa:sess)
@@ -27,18 +18,18 @@ const CONFIG = {
   renew: false, //(boolean) renew session when session is nearly expired,
 };
 app.use(session(CONFIG, app));
-app.use(ctx => {
-  if (ctx.path === '/favicon.ico') return; let n = ctx.session.count || 0; ctx.session.count = ++n;
-  ctx.body = '第' + n + '次访问';
-});
 
-const koaOptions = {
-  origin: true,
-  credentials: true
-};
+const moduleAlias = require("module-alias");
+moduleAlias();
 
-app
-  .use(koaCors(koaOptions))
+// 导入controller middleware:
+const controller = require("../src/controller");
+app.use(bodyParser());
+// 使用middleware:
+app.use(controller());
+
+
+
 // 在端口3000监听:
 app.listen(3000);
 console.log("app started at port 3000...");

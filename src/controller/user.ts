@@ -40,28 +40,20 @@ const login = async (ctx: Context) => {
       avatar: userInfo.avatar,
       permissionList,
     };
-    // ctx.cookies.set(`token_`, 'asd', {
-    //   expires: new Date(Date.now() + 8 * 60 * 60 * 1000), // cookie失效时间
-    //   // path: "/", // 写cookie所在的路径
-    //   maxAge: 17280000, // cookie有效时长
-    //   // domain: "baidu.com", // 写cookie所在的域名, 不用“.”开头支持顶级域名下的所有子域名
-    //   httpOnly: false, // 是否只用于http请求中获取，这样localhost就可以获取了
-    //   overwrite: false, // 是否允许重写
-    // });
     console.log(ctx.session.curUser);
-    ctx.body = ResponseResult.success({ message: "登录成功" });
+    ctx.response.body = ResponseResult.success({ message: "登录成功" });
   } else {
-    ctx.body = ResponseResult.fail(accountInfo, "登录失败");
+    ctx.response.body = ResponseResult.fail(accountInfo, "登录失败");
   }
 };
 
 const logout = async (ctx: Context) => {};
 const curUserInfo = async (ctx: Context) => {
   if (ctx.session.curUser) {
-    ctx.body = ResponseResult.success(ctx.session.curUser);
+    ctx.response.body = ResponseResult.success(ctx.session.curUser);
     // res.json(ResponseResult.success(req.session.curUser))
   } else {
-    ctx.body = ResponseResult.success({
+    ctx.response.body = ResponseResult.success({
       name: "Serati Ma",
       avatar:
         "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
@@ -144,7 +136,8 @@ const deleteById = async (ctx: Context) => {};
 const add = async (ctx: Context) => {};
 const update = async (ctx: Context) => {};
 const queryMenuList = async (ctx: Context) => {
-  ctx.body = ResponseResult.success(ctx.session.curUser.permissionList);
+  // ctx.response.body = ResponseResult.success(ctx.session.curUser.permissionList);
+  ctx.response.body = ResponseResult.success(["100"]);
 };
 
 module.exports = {

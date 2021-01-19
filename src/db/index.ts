@@ -136,7 +136,7 @@ export async function queryObj(tableName: string, params) {
       if (result.length > 0) {
         responseResult = result[0];
       } else {
-        responseResult = Promise.reject("not found");
+        responseResult = Promise.reject("没有符合条件的数据");
       }
       return responseResult;
     })
