@@ -6,6 +6,13 @@ const app = new Koa();
 const session = require("koa-session");
 const bodyParser = require("koa-bodyparser");
 const koaCors = require('koa-cors')
+const koaBody = require('koa-body');
+app.use(koaBody({
+    multipart: true,
+    formidable: {
+        maxFileSize: 200*1024*1024    // 设置上传文件大小最大限制，默认2M
+    }
+}));
 
 app.keys = ["some secret hurr"];
 const CONFIG = {

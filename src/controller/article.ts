@@ -3,7 +3,7 @@
  *   @createDate 2019/8/12
  */
 import { Article, ResponseResult } from "@/models";
-import { queryPage, queryObj, insert, update, doDelete } from "@/db";
+import { queryPage, queryObj, insert, update, remove } from "@/db";
 import { Context } from "koa";
 const TABLE = "t_article";
 
@@ -22,8 +22,7 @@ const queryArticleListByType = async (ctx: Context) => {
 
 // 查询文章列表
 const queryArticleList = async (ctx: Context) => {
-  let result = await queryPage(TABLE, ctx.request.body);
-  ctx.body = ResponseResult.success(result);
+  ctx.body = ResponseResult.success(await queryPage(TABLE, ctx.request.query));
 };
 
 // 根据id查询文章
@@ -34,13 +33,13 @@ const queryArticleById = async (ctx: Context) => {
 
 // 根据id删除文章
 const delArticleById = async (ctx: Context) => {
-  let result = await doDelete(TABLE, { id: ctx.params.id });
+  let result = await remove(TABLE, { id: ctx.params.id });
   ctx.body = ResponseResult.success(result);
 };
 
 // 添加文章
 const addArticle = async (ctx: Context) => {
-  let result = await insert(TABLE, Article);
+  let result = await insert(TABLE, ctx.request.body);
   ctx.body = ResponseResult.success(result);
 };
 
@@ -64,10 +63,10 @@ const updateArticle = async (ctx: Context) => {
 // });
 
 module.exports = {
+  "GET ": queryArticleList,
+  "POST ": addArticle,
   "GET /list/type/:id": queryArticleListByType,
-  "GET /list": queryArticleList,
   "GET /:id": queryArticleById,
   "DELETE /:id": delArticleById,
-  "POST /": addArticle,
   "PUT /:id": updateArticle,
 };

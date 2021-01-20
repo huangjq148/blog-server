@@ -3,6 +3,8 @@ const fs = require("fs");
 type Router = {
   get: (method: string, handler: Function) => void;
   post: (method: string, handler: Function) => void;
+  delete: (method: string, handler: Function) => void;
+  put: (method: string, handler: Function) => void;
 };
 
 // 驼峰转换下划线
@@ -28,13 +30,13 @@ function addMapping(fileName: string, router: Router, mapping: any) {
     } else if (url.startsWith("DELETE ")) {
 
       const path = "/" + prefix + url.substring(7);
-      router.post(path, mapping[url]);
+      router.delete(path, mapping[url]);
       console.log(`register URL mapping: DELETE\t ${path}`);
 
     } else if (url.startsWith("PUT ")) {
 
       const path = "/" + prefix + url.substring(4);
-      router.post(path, mapping[url]);
+      router.put(path, mapping[url]);
       console.log(`register URL mapping: PUT\t ${path}`);
 
     } else {

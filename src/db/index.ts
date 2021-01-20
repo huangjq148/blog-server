@@ -162,8 +162,8 @@ export async function insert(tableName: string, dataObj) {
   if (!dataObj.createTime) {
     dataObj.createTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
   }
-  if (this.req.session.curUser) {
-    dataObj.createUser = this.req.session.curUser.id;
+  if (this?.session?.curUser) {
+    dataObj.createUser = this.session.curUser.id;
   }
   for (let key in dataObj) {
     if (dataObj[key] || dataObj[key] === 0) {
@@ -178,6 +178,16 @@ export async function insert(tableName: string, dataObj) {
     result: res,
     dataObj: dataObj,
   }));
+}
+
+/**
+ * 根据id修改对象
+ * @param tableName 表名
+ * @param dataObj 修改后的字段数据
+ * @param dataObj
+ */
+export async function updateById(tableName: string, dataObj: any) {
+  return update.call(this, tableName, dataObj, { id: dataObj.id });
 }
 
 /**
@@ -224,7 +234,7 @@ export async function update(
  * @param tableName 表名
  * @param paramsObj 待修改对象需符合的条件
  */
-export async function doDelete(tableName: string, paramsObj: any) {
+export async function remove(tableName: string, paramsObj: any) {
   let sql = `delete from ${tableName} where 1=1 `;
   let params = [];
   for (let key in paramsObj) {
@@ -234,6 +244,18 @@ export async function doDelete(tableName: string, paramsObj: any) {
     }
   }
   return excQuery(sql, params);
+}
+
+/**
+ * 批量删除数据
+ * @param tableName 表名
+ * @param ids 待修改对象需符合的条件
+ */
+export async function removeByIds(tableName: string, ids: any) {
+  let sql = `delete from ${tableName} where 1=1 `;
+  let params = [];
+  sql += ` and id in (?)`;
+  return excQuery(sql, [ids.split(",")]);
 }
 
 /**
@@ -258,19 +280,24 @@ export async function queryList(
  * @param tableName 表名
  * @param queryParams 查询条件
  */
-export async function queryPage(tableName: string, queryParams: any) {
-  let whereMap = queryParams.whereMap,
-    sort = queryParams.sort,
-    params = [],
-    currentPage = queryParams.currentPage,
-    pageSize = queryParams.pageSize;
+export async function queryPage(
+  tableName: string,
+  queryParams: any = { params: "{}" }
+) {
+  let params = JSON.parse(queryParams.params),
+    sort = queryParams.sorter,
+    paramValues = [],
+    currentPage = params.current,
+    pageSize = params.pageSize;
 
-  let sql = `select * from ${tableName || this.tableName} where 1=1 `;
+  delete params.current;
+  delete params.pageSize;
+  let sql = `select * from ${tableName} where 1=1 `;
   let whereMapSql,
     sortSql = "",
     limitSql = "";
 
-  whereMapSql = generateWhereSql(whereMap, params);
+  whereMapSql = generateWhereSql(params, paramValues);
 
   if (sort && sort.value) {
     sortSql += ` order by ${sort.key} ${SORTABLE[sort.value]}`;
@@ -284,14 +311,18 @@ export async function queryPage(tableName: string, queryParams: any) {
     limitSql = ` limit ${startIndex},${pageSize}`;
   }
 
-  let contentFn = excQuery(sql + whereMapSql + sortSql + limitSql, params);
+  let contentFn = excQuery(sql + whereMapSql + sortSql + limitSql, paramValues);
   let pageFn = excQuery(
     `select count(*) total from (${sql + whereMapSql}) allRecord`,
-    params
+    paramValues
   );
   return Promise.all([contentFn, pageFn])
     .then((result) => {
-      return { content: result[0], totalRecord: result[1][0]["total"] };
+      return {
+        data: result[0],
+        success: true,
+        total: result[1][0]["total"],
+      };
     })
     .catch((reason) => {
       return reason;
@@ -319,22 +350,14 @@ export async function increase(tableName: string, data: any, whereMap: any) {
   return excQuery(updateSql, params);
 }
 
-export default {
-  findById,
-  queryObj,
-  insert,
-  update,
-  doDelete,
-  queryList,
-  queryPage,
-  increase,
-};
 module.exports = {
   findById,
   queryObj,
   insert,
   update,
-  doDelete,
+  updateById,
+  remove,
+  removeByIds,
   queryList,
   queryPage,
   increase,
