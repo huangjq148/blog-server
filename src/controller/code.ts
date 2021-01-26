@@ -25,18 +25,16 @@ const fetchCode = async (ctx: Context) => {
   // const codeId = "SEX";
   const codeInfo = await queryObj("t_code_dic", { codeId });
 
-  if (codeInfo === "not found") {
-    ctx.body = codeInfo;
-  }
   let result = [];
-  if (codeInfo.tableName === "t_code") {
-    result = await queryList("t_code", { params: { codeId: codeId } });
-  } else {
+
+  if (codeInfo?.tableName) {
     result = await queryList(codeInfo.tableName, {});
     result = result.map((item) => ({
       value: item[codeInfo.valueName],
       label: item[codeInfo.labelName],
     }));
+  } else {
+    result = await queryList("t_code", { params: { codeId: codeId } });
   }
   ctx.body = ResponseResult.success(result);
 };

@@ -87,6 +87,7 @@ CREATE TABLE `t_code`  (
   `codeId` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `createUser` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `createTime` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `updateTime` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
@@ -95,8 +96,10 @@ CREATE TABLE `t_code`  (
 -- ----------------------------
 -- Records of t_code
 -- ----------------------------
-INSERT INTO `t_code` VALUES ('1', 'SEX', '0', '男', NULL, NULL, NULL);
-INSERT INTO `t_code` VALUES ('2', 'SEX', '1', '女', NULL, NULL, NULL);
+INSERT INTO `t_code` VALUES ('1', 'SEX', '0', '男', '', NULL, NULL, NULL);
+INSERT INTO `t_code` VALUES ('2', 'SEX', '1', '女', '',NULL, NULL, NULL);
+INSERT INTO `t_code` VALUES ('3', 'IS_ENABLE', '0', '启用', 'success', NULL, NULL, NULL);
+INSERT INTO `t_code` VALUES ('4', 'IS_ENABLE', '1', '禁用', 'error', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_code_dic
@@ -116,7 +119,6 @@ CREATE TABLE `t_code_dic`  (
 -- ----------------------------
 -- Records of t_code_dic
 -- ----------------------------
-INSERT INTO `t_code_dic` VALUES ('e24f13402a7711eba87d1195f0e5aa97', 'SEX', 't_code', 'value', 'label', NULL, '2020-11-19 22:59:55', NULL);
 INSERT INTO `t_code_dic` VALUES ('2922bb402a7e11eba87d1195f0e5aa97', 'ARTICLE_TYPE', 't_article_type', 'id', 'name', NULL, '2020-11-19 23:44:50', NULL);
 INSERT INTO `t_code_dic` VALUES ('519fa0302ff911eba87d1195f0e5aa97', 'ddd', 't_article_type', 'dw', 'dw', NULL, '2020-11-26 23:09:02', NULL);
 
