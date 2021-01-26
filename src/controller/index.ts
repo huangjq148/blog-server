@@ -19,7 +19,7 @@ function addMapping(fileName: string, router: Router, mapping: any) {
 
       const path = "/" + prefix + url.substring(4);
       router.get(path, mapping[url]);
-      console.log(`register URL mapping: GET\t ${path} \t\t\t\thttp://localhost:3000${path}`);
+      console.log(`register URL mapping: GET\t ${path.padEnd(60)}http://localhost:3000${path}`);
 
     } else if (url.startsWith("POST ")) {
 

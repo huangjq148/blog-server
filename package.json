@@ -23,6 +23,7 @@
     "koa-cors": "^0.0.16",
     "koa-router": "^10.0.0",
     "koa-session": "^6.1.0",
+    "mime-types": "^2.1.28",
     "module-alias": "^2.2.2",
     "mysql": "^2.18.1",
     "node-uuid": "^1.4.8",

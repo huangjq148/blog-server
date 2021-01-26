@@ -85,8 +85,8 @@ DROP TABLE IF EXISTS `t_code`;
 CREATE TABLE `t_code`  (
   `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `codeId` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `createUser` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `createTime` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `updateTime` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
@@ -106,8 +106,8 @@ CREATE TABLE `t_code_dic`  (
   `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `codeId` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `tableName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `codeName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `valueName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `labelName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `createUser` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `createTime` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `updateTime` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
@@ -116,7 +116,7 @@ CREATE TABLE `t_code_dic`  (
 -- ----------------------------
 -- Records of t_code_dic
 -- ----------------------------
-INSERT INTO `t_code_dic` VALUES ('e24f13402a7711eba87d1195f0e5aa97', 'SEX', 't_code', 'code', 'value', NULL, '2020-11-19 22:59:55', NULL);
+INSERT INTO `t_code_dic` VALUES ('e24f13402a7711eba87d1195f0e5aa97', 'SEX', 't_code', 'value', 'label', NULL, '2020-11-19 22:59:55', NULL);
 INSERT INTO `t_code_dic` VALUES ('2922bb402a7e11eba87d1195f0e5aa97', 'ARTICLE_TYPE', 't_article_type', 'id', 'name', NULL, '2020-11-19 23:44:50', NULL);
 INSERT INTO `t_code_dic` VALUES ('519fa0302ff911eba87d1195f0e5aa97', 'ddd', 't_article_type', 'dw', 'dw', NULL, '2020-11-26 23:09:02', NULL);
 

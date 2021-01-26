@@ -47,19 +47,12 @@ const login = async (ctx: Context) => {
   }
 };
 
-const logout = async (ctx: Context) => {};
-const queryList = async (ctx: Context) => {};
-const queryById = async (ctx: Context) => {};
-const deleteById = async (ctx: Context) => {};
-const add = async (ctx: Context) => {};
-const update = async (ctx: Context) => {};
+const logout = async (ctx: Context) => {
+  ctx.session.curUser = null;
+  ctx.response.body = ResponseResult.success("注销成功");
+};
 
 module.exports = {
   "POST ": login,
   "GET /logout": logout,
-  "GET /list": queryList,
-  "GET /:id": queryById,
-  "DELETE /:id": deleteById,
-  "POST /": add,
-  "PUT /:id": update,
 };

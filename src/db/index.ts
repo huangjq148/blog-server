@@ -267,10 +267,10 @@ export async function queryList(
   tableName: string,
   queryParams: any
 ): Promise<Array<any>> {
-  let whereMap = queryParams.whereMap;
+  let whereMap = queryParams.params;
   let params = [];
-  let whereMapSql = this.generateWhereSql(whereMap, params);
-  let sql = `select * from ${tableName || this.tableName} where 1=1 `;
+  let whereMapSql = generateWhereSql(whereMap, params);
+  let sql = `select * from ${tableName} where 1=1 `;
   sql += whereMapSql;
   return excQuery(sql, params);
 }
@@ -287,7 +287,7 @@ export async function queryPage(
   let params = JSON.parse(queryParams.params),
     sort = queryParams.sorter,
     paramValues = [],
-    currentPage = params.current,
+    currentPage = params.current || 1,
     pageSize = params.pageSize;
 
   delete params.current;
@@ -351,6 +351,7 @@ export async function increase(tableName: string, data: any, whereMap: any) {
 }
 
 module.exports = {
+  excQuery,
   findById,
   queryObj,
   insert,

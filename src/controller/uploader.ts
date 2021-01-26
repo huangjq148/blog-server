@@ -1,5 +1,6 @@
 import { Context } from "koa";
 const fs = require("fs");
+const mime = require('mime-types'); //需npm安装
 
 /**
  *   @Author huangjq
@@ -88,11 +89,14 @@ const downloadFile = function (ctx: Context) {
   }
 };
 
+// http://localhost:3000/uploader/preview/34217a4b84954602a7898a3e03fa0309.png?originalName=hh.png
 const previewFile = async function (ctx: Context) {
   const realName = ctx.params.realName;
   const filePath = "./upload/" + realName;
   try {
     const file = fs.readFileSync(filePath);
+    let mimeType = mime.lookup(filePath); //读取图片文件类型
+	ctx.set('content-type', mimeType); //设置返回类型
     ctx.response.body = file;
   } catch (e) {
     ctx.response.body = ResponseResult.fail("Read file failed!");
@@ -107,18 +111,6 @@ const previewFile = async function (ctx: Context) {
   //   });
 };
 
-// //http://localhost:3000/uploader/preview/e881c02f2a3449c1b2b58824d17cb61a.jpg?originalName=hh.png
-// router.get("/preview/:realName", function (req, res, next) {
-//   const realName = req.param("realName");
-//   const filePath = "./upload/" + realName;
-//   fs.readFile(filePath, function (isErr, data) {
-//     if (isErr) {
-//       res.end("Read file failed!");
-//       return;
-//     }
-//     res.end(data);
-//   });
-// });
 
 // router.post("/delete/:id", function (req, res, next) {
 //   DbUtils;

@@ -3,8 +3,9 @@ import { Code, ResponseResult } from "@/models";
 import { queryPage, queryObj, queryList, excQuery, update } from "@/db";
 import { Context } from "koa";
 
+// 表码列表
 const queryDicPage = async function (ctx: Context) {
-  let result = await queryPage(ctx.request.body, "t_code_dic");
+  let result = await queryPage("t_code_dic", ctx.request.body);
   ctx.body = ResponseResult.success(result);
 };
 
@@ -19,7 +20,7 @@ const queryPageRecord = async function (cxt: Context) {
   cxt.body = ResponseResult.success(result);
 };
 
-const code = async (ctx: Context) => {
+const fetchCode = async (ctx: Context) => {
   const codeId = ctx.params.codeId;
   // const codeId = "SEX";
   const codeInfo = await queryObj("t_code_dic", { codeId });
@@ -29,21 +30,21 @@ const code = async (ctx: Context) => {
   }
   let result = [];
   if (codeInfo.tableName === "t_code") {
-    result = await queryList("t_code", { codeId: codeId });
+    result = await queryList("t_code", { params: { codeId: codeId } });
   } else {
     result = await queryList(codeInfo.tableName, {});
     result = result.map((item) => ({
-      code: item[codeInfo.codeName],
       value: item[codeInfo.valueName],
+      label: item[codeInfo.labelName],
     }));
   }
-  ctx.body = ResponseResult.success(codeInfo);
+  ctx.body = ResponseResult.success(result);
 };
 
 const queryDatabaseTables = async function (ctx: Context) {
-  const database = config.dbInfo.database;
+  const database = config.DB_INFO.database;
   const result = await excQuery(
-    `select table_name code,table_name value from information_schema.tables where table_schema='${database}'`
+    `select table_name value,table_name label from information_schema.tables where table_schema='${database}'`
   );
   ctx.body = ResponseResult.success(result);
 };
@@ -56,9 +57,9 @@ const updateDic = async (ctx: Context) => {
 module.exports = {
   "GET /TABLES": queryDatabaseTables,
   "GET /": queryPageRecord,
-  "GET /dist": queryDicPage,
-  "POST /dist": code,
-  "PUT /dist": updateDic,
+  "GET ": queryDicPage,
+  "GET /:codeId": fetchCode,
+  "PUT ": updateDic,
 };
 
 // // 表码
