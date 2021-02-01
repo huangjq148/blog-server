@@ -32,10 +32,17 @@ const updateAccount = async (ctx: Context) => {
   );
 };
 
+const changeAccountStatus = async (ctx: Context) => {
+  ctx.response.body = ResponseResult.success(
+    await updateById(TABLE, { id: ctx.params.id, status: ctx.params.status })
+  );
+};
+
 module.exports = {
   "POST ": addAccount,
   "PUT ": updateAccount,
   "DELETE /:ids": removeAccount,
   "GET ": queryAccountPage,
   "GET /:id": queryAccountById,
+  "PUT /:id/status/:status": changeAccountStatus,
 };

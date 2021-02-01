@@ -45,7 +45,7 @@ const addArticle = async (ctx: Context) => {
 
 // 更新文章
 const updateArticle = async (ctx: Context) => {
-  let result = await update(TABLE, Article, { id: ctx.params.id });
+  let result = await update(TABLE, ctx.request.body, { id: ctx.params.id });
   ctx.body = ResponseResult.success(result);
 };
 
